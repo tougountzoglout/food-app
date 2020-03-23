@@ -10,9 +10,9 @@ export const EP_BUS_SEARCH = "businesses/search";
 
 export const EP_PHO_SEARCH = "businesses/search/phone";
 
-export const EP_BUS_DETAILS = "businesses/";
+export const EP_BUS_DETAILS = "businesses";
 
-class WebService extends Component {
+export default class WebService extends Component {
   constructor(props) {
     super(props);
   }
@@ -20,28 +20,23 @@ class WebService extends Component {
   setupJWT = () => {
     // Add a request interceptor
     axios.interceptors.request.use(
-      function(config) {
-        // Do something before request is sent
-        config.headers.authentication = `Bearer ${API_KEY}`;
-        return config;
-      },
-      function(error) {
-        // Do something with request error
-        console.log(error);
-        return Promise.reject(error);
-      }
-    );
+        function(config) {
+          // Do something before request is sent
+          config.headers.Authorization = `Bearer ${API_KEY}`;
+  
+          console.log(config.headers);
+          return config;
+        },
+        function(error) {
+          // Do something with request error
+          console.log(error);
+          return Promise.reject(error);
+        }
+      );
   };
 
   getBusiness = term => {
-    axios.get(`${URL}/${EP_BUS_SEARCH}`, {
-      params: {
-        limit: 50,
-        term: term,
-        location: "san jose"
-      }
-    });
-  };
+  
 }
 
-export default new WebService();
+}

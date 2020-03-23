@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import SearchBar from "../component/SearchBar";
-import WebService, {URL,EP_BUS_SEARCH} from "../api/WebService";
-import axios from 'axios'
+import WebService, { URL, EP_BUS_SEARCH, API_KEY } from "../api/WebService";
+import axios from "axios";
 
 const styles = StyleSheet.create({
   container: {
@@ -21,16 +21,35 @@ class SearchScreen2 extends Component {
   }
 
   getBusiness = term => {
+    console.log(`${API_KEY}`);
+    console.log(`${URL}/${EP_BUS_SEARCH}`);
+    let api_k = `${API_KEY}`;
     WebService.setupJWT();
-    axios.get(`${URL}/${EP_BUS_SEARCH}`, {
-      params: {
-        limit: 50,
-        term: term,
-        location: "san jose"
-      }
-    })
+    // axios.get(`${URL}/${EP_BUS_SEARCH}`, {
+    //   params: {
+    //     limit: 50,
+    //     term: 'pasta',
+    //     location: "san jose"
+    //   }
+    // })
+    WebService.getBusiness('pasta')
       .then(response => console.log(response.data))
       .catch(error => console.log(error));
+
+    // axios.get(`${URL}/${EP_BUS_SEARCH}`, {
+    //     term: "pasta",
+    //     location: "san jose"
+    //   })
+    //   .then(function(response) {
+    //     console.log(response.data);
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error.response.request._response );
+    //   })
+    //   .then(function() {
+    //     // always executed
+    //     console.log("poustia");
+    //   });
   };
 
   render() {
@@ -39,7 +58,7 @@ class SearchScreen2 extends Component {
         <SearchBar
           term={this.state.term}
           onTermChange={newTerm => this.setState({ term: newTerm })}
-          onEndEdit={()=>this.getBusiness('pasta')}
+          onEndEdit={() => this.getBusiness("pasta")}
         ></SearchBar>
         <Text>{this.state.term}</Text>
       </View>
